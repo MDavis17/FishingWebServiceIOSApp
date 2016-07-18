@@ -11,7 +11,7 @@ import UIKit
 
 class RestApiManager {
     
-    func makeHTTPGetRequest(path: String, cond: Condition, completion: () -> ()){
+    func makeHTTPGetRequest(path: String, cond: Condition, nextCond: Condition, completion: () -> ()){
         
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
         let session = NSURLSession.sharedSession()
@@ -36,7 +36,7 @@ class RestApiManager {
             // optional binding and setting the variables so they can be used in the UI
             dispatch_async(dispatch_get_main_queue()) {
                 
-                // updating the variables in the model
+                // updating the current condition variables in the model
                 if let temp = json["currentTemp"] as! Double? {
                     cond.setTemperature(temp)
                 }
@@ -49,6 +49,23 @@ class RestApiManager {
                 if let status = json["currentTideStatus"] as! String? {
                     cond.setCurrentTideStatus(status)
                 }
+                
+                // updating the next extreme condition variabes
+                /*
+                if let temp = json["currentTemp"] as! Double? {
+                    nextCond.setTemperature(temp)
+                }*/
+                if let tide = json["nextExtremeTide"] as! Double? {
+                    nextCond.setTideLevel(tide)
+                }
+                if let time = json["nextExtremeTime"] as! String? {
+                    nextCond.setCurrentTime(time)
+                }
+                /*
+                if let status = json["currentTideStatus"] as! String? {
+                    nextCond.setCurrentTideStatus(status)
+                }*/
+                
                 completion()
             }
         })
