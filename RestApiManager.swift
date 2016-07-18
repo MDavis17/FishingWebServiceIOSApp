@@ -52,11 +52,11 @@ class RestApiManager {
                     
                     // set the next extreme tide status based on direction indicated by the API
                     switch(status) {
-                    case "up":
+                    case "up", "low":
                         nextCond.setCurrentTideStatus("high")
                         break
                         
-                    case "down":
+                    case "down", "high":
                         nextCond.setCurrentTideStatus("low")
                         break
                         
