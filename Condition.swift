@@ -15,8 +15,17 @@ class Condition : UIView{
             setNeedsLayout()
         }
     }
-    var num = 0
     var tide = Double(0) {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    var time = " " {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    var tideStatus = " " {
         didSet {
             setNeedsLayout()
         }
@@ -27,39 +36,34 @@ class Condition : UIView{
     }
     
     init() {
-        num = 0
-        temp = 0
-        tide = 0
         // arbitrary initialization of the UIView superclass object
         super.init(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    }
-    
-    func getNum() -> Int {
-        return num
     }
     
     func getTemp() -> Double {
         return temp
     }
-    
     func getTide() -> Double {
         return tide
     }
-    
-    func setNumber(value: Int) {
-        num = value
+    func getTideStatus() -> String {
+        return tideStatus
+    }
+    func getCurrentTime() -> String {
+        return time
     }
     
     func setTemperature(value: Double) {
         temp = value
     }
-    
     func setTideLevel(value: Double) {
         tide = value
     }
-    
-    func incNum() -> Void {
-        num += 1
+    func setCurrentTime(value: String) {
+        time = value
+    }
+    func setCurrentTideStatus(value: String) {
+        tideStatus = value
     }
     
 }
