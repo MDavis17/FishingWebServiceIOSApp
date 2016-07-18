@@ -35,7 +35,7 @@ class ViewController: UIViewController {
             //self.ExTempValueLabel.text = String(self.nextCond.getTemp())
             self.ExTideValueLabel.text = String(self.nextCond.getTide())
             self.ExTimeValueLabel.text = self.nextCond.getCurrentTime()
-            //self.ExTideStatusValueLabel.text = self.nextCond.getTideStatus()
+            self.ExTideStatusValueLabel.text = self.nextCond.getTideStatus()
         }
     }
 

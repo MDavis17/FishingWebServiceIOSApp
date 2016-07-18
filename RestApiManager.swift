@@ -47,7 +47,22 @@ class RestApiManager {
                     cond.setCurrentTime(time)
                 }
                 if let status = json["currentTideStatus"] as! String? {
+                    
                     cond.setCurrentTideStatus(status)
+                    
+                    // set the next extreme tide status based on direction indicated by the API
+                    switch(status) {
+                    case "up":
+                        nextCond.setCurrentTideStatus("high")
+                        break
+                        
+                    case "down":
+                        nextCond.setCurrentTideStatus("low")
+                        break
+                        
+                    default:
+                        break
+                    }
                 }
                 
                 // updating the next extreme condition variabes
@@ -61,10 +76,7 @@ class RestApiManager {
                 if let time = json["nextExtremeTime"] as! String? {
                     nextCond.setCurrentTime(time)
                 }
-                /*
-                if let status = json["currentTideStatus"] as! String? {
-                    nextCond.setCurrentTideStatus(status)
-                }*/
+                
                 
                 completion()
             }
