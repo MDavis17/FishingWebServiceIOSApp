@@ -66,17 +66,15 @@ class RestApiManager {
                 }
                 
                 // updating the next extreme condition variabes
-                /*
-                if let temp = json["currentTemp"] as! Double? {
+                if let temp = json["nextTemp"] as! Double? {
                     nextCond.setTemperature(temp)
-                }*/
+                }
                 if let tide = json["nextExtremeTide"] as! Double? {
                     nextCond.setTideLevel(tide)
                 }
                 if let time = json["nextExtremeTime"] as! String? {
                     nextCond.setCurrentTime(time)
                 }
-                
                 
                 completion()
             }

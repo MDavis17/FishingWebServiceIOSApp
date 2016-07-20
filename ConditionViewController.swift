@@ -57,7 +57,7 @@ class ViewController: UIViewController {
             }
             
             //update next extreme values
-            //self.ExTempValueLabel.text = String(self.nextCond.getTemp())
+            self.ExTempValueLabel.text = String(self.nextCond.getTemp())+"°F"
             self.ExTideValueLabel.text = String(self.nextCond.getTide())+" ft"
             self.ExTimeValueLabel.text = self.nextCond.getCurrentTime()
             self.ExTideStatusValueLabel.text = self.nextCond.getTideStatus()
