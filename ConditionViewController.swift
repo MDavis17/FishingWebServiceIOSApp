@@ -13,15 +13,22 @@ class ViewController: UIViewController {
     var cond = Condition()
     var nextCond = Condition()
     let sharedInstance = RestApiManager()
-    
-    //var currentTemp = Double()
+    var numberOfDelays = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // automatically update the temperature and tide values
+        // Automatically update the temperature and tide values
         HTTPInteract()
+
+        // alert the user if the displayed data is old, but only execute the completion hander when theres only one delay running
+        delay(362.0) {
+            if(self.numberOfDelays <= 1) {
+                self.staleDataLabel.hidden = false
+            }
+            self.numberOfDelays -= 1
+        }
     }
     
     func HTTPInteract() {
@@ -64,6 +71,20 @@ class ViewController: UIViewController {
             self.ExTideStatusImg.image = UIImage(named: self.nextCond.getTideStatus())
         }
     }
+    
+    // this will help with alerting the user if the data shown on the screen is old data
+    func delay(delay: Double, completion: ()->()) {
+        numberOfDelays += 1
+        
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(),
+            completion
+        )
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -86,10 +107,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var ExTideStatusValueLabel: UILabel!
     @IBOutlet weak var ExTideStatusImg: UIImageView!
     
+    @IBOutlet weak var staleDataLabel: UILabel!
     // Mark: Actions
     
     @IBAction func updateValues(sender: UISwipeGestureRecognizer) {
         HTTPInteract()
+
+        staleDataLabel.hidden = true
+        
+        delay(362.0) {
+            if(self.numberOfDelays <= 1) {
+                self.staleDataLabel.hidden = false
+            }
+            self.numberOfDelays -= 1
+        }
     }
     
 }
