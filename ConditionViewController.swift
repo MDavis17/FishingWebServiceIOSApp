@@ -21,6 +21,8 @@ class ViewController: UIViewController {
         
         // Automatically update the temperature and tide values
         HTTPInteract()
+        
+        
 
         // alert the user if the displayed data is old, but only execute the completion hander when theres only one delay running
         delay(362.0) {
@@ -28,6 +30,16 @@ class ViewController: UIViewController {
                 self.staleDataLabel.hidden = false
             }
             self.numberOfDelays -= 1
+        }
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator:UIViewControllerTransitionCoordinator) {
+        if(UIDevice.currentDevice().orientation.isLandscape) {
+            conditionStack.axis = .Horizontal
+            conditionStack.spacing = 25
+        }
+        else {
+            conditionStack.axis = .Vertical
         }
     }
     
@@ -108,6 +120,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var ExTideStatusImg: UIImageView!
     
     @IBOutlet weak var staleDataLabel: UILabel!
+    
+    
+    @IBOutlet weak var mainStack: UIStackView!
+    @IBOutlet weak var conditionStack: UIStackView!
     // Mark: Actions
     
     @IBAction func updateValues(sender: UISwipeGestureRecognizer) {
