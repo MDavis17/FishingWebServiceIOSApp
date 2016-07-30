@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
     
@@ -45,7 +46,7 @@ class ViewController: UIViewController {
     
     func HTTPInteract() {
         activityIndicator.startAnimating()
-        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current",cond: cond, nextCond: nextCond) {() in
+        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current/9411340",cond: cond, nextCond: nextCond) {() in
             self.activityIndicator.stopAnimating()
             
             // update current values

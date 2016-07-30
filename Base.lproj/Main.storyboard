@@ -201,6 +201,7 @@
                             <constraint firstItem="Wb9-xF-ITb" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="mgp-WZ-ioI"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Vlg-Go-Y3y"/>
                     <connections>
                         <outlet property="ExTempValueLabel" destination="3KI-H9-NkL" id="jJF-RP-y0N"/>
                         <outlet property="ExTideStatusImg" destination="2TP-6n-buD" id="JPV-rX-YDT"/>
@@ -225,7 +226,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="440" y="317"/>
+            <point key="canvasLocation" x="1086" y="347"/>
         </scene>
     </scenes>
 </document>
