@@ -15,18 +15,18 @@ class ViewController: UIViewController {
     var nextCond = Condition()
     let sharedInstance = RestApiManager()
     var numberOfDelays = 0
+    var stationID = "";
+    var scrollView: UIScrollView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        // Automatically update the temperature and tide values
-        HTTPInteract()
-        
-        
+        // Automatically update the temperature and tide values from santa barbara
+        HTTPInteract("9411340")
 
         // alert the user if the displayed data is old, but only execute the completion hander when theres only one delay running
-        delay(362.0) {
+        delay(361.0) {
             if(self.numberOfDelays <= 1) {
                 self.staleDataLabel.hidden = false
             }
@@ -44,9 +44,9 @@ class ViewController: UIViewController {
         }
     }
     
-    func HTTPInteract() {
+    func HTTPInteract(ID: String) {
         activityIndicator.startAnimating()
-        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current/9411340",cond: cond, nextCond: nextCond) {() in
+        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current/"+ID,cond: cond, nextCond: nextCond) {() in
             self.activityIndicator.stopAnimating()
             
             // update current values
@@ -89,16 +89,9 @@ class ViewController: UIViewController {
     func delay(delay: Double, completion: ()->()) {
         numberOfDelays += 1
         
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(),
-            completion
-        )
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), completion)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -122,21 +115,71 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var staleDataLabel: UILabel!
     
+    @IBOutlet weak var stationIDTextField: UITextField!
+    
+    //var refreshControl: UIRefreshControl!
+    
     
     @IBOutlet weak var mainStack: UIStackView!
     @IBOutlet weak var conditionStack: UIStackView!
     // Mark: Actions
     
-    @IBAction func updateValues(sender: UISwipeGestureRecognizer) {
-        HTTPInteract()
-
+    /*
+     //currently dissabled
+    @IBAction func updateValues(sender: UIScreenEdgePanGestureRecognizer) {
+        HTTPInteract(stationID)
+        
         staleDataLabel.hidden = true
         
-        delay(362.0) {
+        delay(361.0) {
             if(self.numberOfDelays <= 1) {
                 self.staleDataLabel.hidden = false
             }
             self.numberOfDelays -= 1
+        }
+    }*/
+    
+    /*
+     //currently dissabled
+    @IBAction func updateValues(sender: UISwipeGestureRecognizer) {
+        HTTPInteract(stationID)
+
+        staleDataLabel.hidden = true
+        
+        delay(361.0) {
+            if(self.numberOfDelays <= 1) {
+                self.staleDataLabel.hidden = false
+            }
+            self.numberOfDelays -= 1
+        }
+    }*/
+    
+    @IBAction func buttonUpdate(sender: AnyObject) {
+        HTTPInteract(stationID)
+        
+        staleDataLabel.hidden = true
+        
+        delay(361.0) {
+            if(self.numberOfDelays <= 1) {
+                self.staleDataLabel.hidden = false
+            }
+            self.numberOfDelays -= 1
+        }
+    }
+    
+    @IBAction func reqWithID(sender: AnyObject) {
+        if(Int(stationIDTextField.text!) != nil && Int(stationIDTextField.text!) > 999999) {
+            stationID = stationIDTextField.text!
+            stationIDTextField.resignFirstResponder()
+            HTTPInteract(stationID)
+            staleDataLabel.hidden = true
+            // alert the user if the displayed data is old, but only execute the completion hander when theres only one delay running
+            delay(361.0) {
+                if(self.numberOfDelays <= 1) {
+                    self.staleDataLabel.hidden = false
+                }
+                self.numberOfDelays -= 1
+            }
         }
     }
     
