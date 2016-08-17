@@ -272,9 +272,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Station name" id="EIU-wd-PjB">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="K6s-4s-XBK">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="GU8-NR-GmW">
                             <connections>
-                                <segue destination="Qbr-aU-Aeg" kind="presentation" id="C4f-Wa-fX9"/>
+                                <segue destination="Qbr-aU-Aeg" kind="show" id="USu-14-hvw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -327,23 +327,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5xa-Vq-ioe">
-                                <rect key="frame" x="0.0" y="0.0" width="422" height="523"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fsC-6m-QFQ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5xa-Vq-ioe" firstAttribute="top" secondItem="E6H-kW-Ar8" secondAttribute="topMargin" id="NSq-3O-Fbb"/>
-                            <constraint firstItem="5xa-Vq-ioe" firstAttribute="leading" secondItem="E6H-kW-Ar8" secondAttribute="leadingMargin" id="jRA-jz-S9C"/>
+                            <constraint firstAttribute="trailing" secondItem="fsC-6m-QFQ" secondAttribute="trailing" id="3zs-Ab-jmQ"/>
+                            <constraint firstItem="fsC-6m-QFQ" firstAttribute="leading" secondItem="E6H-kW-Ar8" secondAttribute="leading" id="4et-ma-6cU"/>
+                            <constraint firstItem="fsC-6m-QFQ" firstAttribute="bottom" secondItem="ZXt-o5-kGs" secondAttribute="top" id="6Sb-Xd-bzf"/>
+                            <constraint firstItem="fsC-6m-QFQ" firstAttribute="top" secondItem="E6H-kW-Ar8" secondAttribute="top" id="U51-sC-W8O"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <outlet property="MapView" destination="5xa-Vq-ioe" id="vbS-jh-LYt"/>
-                    </connections>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ix9-1A-Waa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1409" y="245"/>
+            <point key="canvasLocation" x="1292" y="245"/>
         </scene>
     </scenes>
 </document>
