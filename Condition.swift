@@ -30,6 +30,11 @@ class Condition : UIView{
             setNeedsLayout()
         }
     }
+    var name = " " {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -52,6 +57,9 @@ class Condition : UIView{
     func getCurrentTime() -> String {
         return time
     }
+    func getStation_Name() -> String {
+        return name
+    }
     
     func setTemperature(value: Double) {
         temp = value
@@ -64,6 +72,9 @@ class Condition : UIView{
     }
     func setCurrentTideStatus(value: String) {
         tideStatus = value
+    }
+    func setStation_Name(value: String) {
+        name = value
     }
     
 }

@@ -46,6 +46,9 @@ class RestApiManager {
                 if let time = json["currentDateTime"] as! String? {
                     cond.setCurrentTime(time)
                 }
+                if let name = json["stationName"] as! String? {
+                    cond.setStation_Name(name.stringByReplacingOccurrencesOfString("_", withString: " "))
+                }
                 if let status = json["currentTideStatus"] as! String? {
                     
                     cond.setCurrentTideStatus(status)
@@ -75,6 +78,7 @@ class RestApiManager {
                 if let time = json["nextExtremeTime"] as! String? {
                     nextCond.setCurrentTime(time)
                 }
+                
                 
                 completion()
             }

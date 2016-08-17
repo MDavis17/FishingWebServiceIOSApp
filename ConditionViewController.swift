@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     
     func HTTPInteract(ID: String) {
         activityIndicator.startAnimating()
-        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current/"+ID,cond: cond, nextCond: nextCond) {() in
+        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current/"+ID, cond: cond, nextCond: nextCond) {() in
             self.activityIndicator.stopAnimating()
             
             // update current values
@@ -75,6 +75,9 @@ class ViewController: UIViewController {
                 self.tideStatusValueLabel.text = status
                 break
             }
+            
+            
+            self.StationNameTitle.title = self.cond.getStation_Name()
             
             //update next extreme values
             self.ExTempValueLabel.text = String(self.nextCond.getTemp())+"°F"
@@ -105,6 +108,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var tideValueLabel: UILabel!
     @IBOutlet weak var tideStatusValueLabel: UILabel!
     @IBOutlet weak var tideStatusImg: UIImageView!
+    
+    @IBOutlet weak var StationNameTitle: UINavigationItem!
+    
     
     // next extreme condition variables
     @IBOutlet weak var ExTimeValueLabel: UILabel!
