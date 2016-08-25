@@ -9,21 +9,49 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var cond = Condition()
     var nextCond = Condition()
     let sharedInstance = RestApiManager()
     var numberOfDelays = 0
+    var defaultID = "9411340"
     var stationID = "";
+    var startingCoord = CLLocationCoordinate2D()
     var scrollView: UIScrollView!
+    var currentStation = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
+    let locationManager = CLLocationManager()
+    var newSession = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        
+        locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        // san francisco testing location
+        //startingCoord = CLLocationCoordinate2D(latitude: 37.716138, longitude: -122.351085)
+        startingCoord = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        
+        sharedInstance.getClosestStation("http://fishingwebservice.cfapps.io/stationsearch/"+String(startingCoord.latitude)+","+String(startingCoord.longitude), station: currentStation) {() in
+            self.stationID = String(self.currentStation.id)
+            self.HTTPInteract(self.stationID)
+            //self.newSession = false
+        }
+        
+        //let a = locationManager.location?.coordinate.longitude
+        //let b = locationManager.location?.coordinate.latitude
         
         // Automatically update the temperature and tide values from santa barbara
-        HTTPInteract("9411340")
+        //HTTPInteract("9411340")
 
         // alert the user if the displayed data is old, but only execute the completion hander when theres only one delay running
         delay(361.0) {
@@ -33,6 +61,21 @@ class ViewController: UIViewController {
             self.numberOfDelays -= 1
         }
     }
+    /*
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    {
+        if newSession {
+            let location = locations.last! as CLLocation
+            startingCoord = CLLocationCoordinate2D(latitude: location.coordinate.latitude,longitude: location.coordinate.longitude)
+            sharedInstance.getClosestStation("http://fishingwebservice.cfapps.io/stationsearch/"+String(startingCoord.latitude)+","+String(startingCoord.longitude), station: currentStation) {() in
+                self.stationID = String(self.currentStation.id)
+                self.HTTPInteract(self.stationID)
+                //self.newSession = false
+            }
+        }
+        newSession = false
+        //return
+    }*/
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator:UIViewControllerTransitionCoordinator) {
         if(UIDevice.currentDevice().orientation.isLandscape) {
@@ -44,9 +87,24 @@ class ViewController: UIViewController {
         }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if( segue.identifier == "MapSegue") {
+            let mvc = segue.destinationViewController as! MapViewController
+            
+            mvc.closestStation = currentStation
+        }
+    }
+    
+    func getIDFromCoord(Lat: Double, Long: Double) -> Int {
+        sharedInstance.getClosestStation("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long), station: currentStation) {() in
+            return self.currentStation.id
+        }
+        return -1
+    }
+    
     func HTTPInteract(ID: String) {
         activityIndicator.startAnimating()
-        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current/"+ID, cond: cond, nextCond: nextCond) {() in
+        sharedInstance.makeHTTPGetRequest("http://fishingwebservice.cfapps.io/current/"+ID, stationID: ID, station: currentStation, cond: cond, nextCond: nextCond) {() in
             self.activityIndicator.stopAnimating()
             
             // update current values
@@ -75,8 +133,6 @@ class ViewController: UIViewController {
                 self.tideStatusValueLabel.text = status
                 break
             }
-            
-            
             self.StationNameTitle.title = self.cond.getStation_Name()
             
             //update next extreme values

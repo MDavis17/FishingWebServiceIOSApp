@@ -11,7 +11,7 @@ import UIKit
 
 class RestApiManager {
     
-    func makeHTTPGetRequest(path: String, cond: Condition, nextCond: Condition, completion: () -> ()){
+    func makeHTTPGetRequest(path: String, stationID: String, station: Station, cond: Condition, nextCond: Condition, completion: () -> ()){
         
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
         let session = NSURLSession.sharedSession()
@@ -36,7 +36,9 @@ class RestApiManager {
             // optional binding and setting the variables so they can be used in the UI
             dispatch_async(dispatch_get_main_queue()) {
                 
-                // updating the current condition variables in the model
+                // updating the current condition variables in the models
+                station.setStationID(Int(stationID)!)
+                
                 if let temp = json["currentTemp"] as! Double? {
                     cond.setTemperature(temp)
                 }
@@ -47,7 +49,14 @@ class RestApiManager {
                     cond.setCurrentTime(time)
                 }
                 if let name = json["stationName"] as! String? {
-                    cond.setStation_Name(name.stringByReplacingOccurrencesOfString("_", withString: " "))
+                    let formattedName = name.stringByReplacingOccurrencesOfString("_", withString: " ")
+                    cond.setStation_Name(formattedName)
+                    station.setStationName(formattedName)
+                }
+                if let lat = json["stationLat"] as! Double? {
+                    if let lon = json["stationLon"] as! Double? {
+                        station.setStationCoord(lat,long: lon)
+                    }
                 }
                 if let status = json["currentTideStatus"] as! String? {
                     
@@ -77,6 +86,53 @@ class RestApiManager {
                 }
                 if let time = json["nextExtremeTime"] as! String? {
                     nextCond.setCurrentTime(time)
+                }
+                
+                
+                completion()
+            }
+        })
+        task.resume()
+    }
+    
+    func getClosestStation(path: String, station: Station, completion: () -> ()){
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: path)!)
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request, completionHandler: { data, response, error -> Void in
+            
+            // here my json is put into the 'data' object
+            
+            var json: [String: AnyObject] // for now I will put my info into a string:object map 'json'
+            
+            // now use a do-catch to handle the potential exception
+            do {
+                // put the data into 'json' through the NSJSON Serializer
+                json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions() ) as! [String: AnyObject]
+                
+            }
+            catch{
+                json = [String: AnyObject]() // back up initialization
+                print("error serializing json: \(error)" )
+                
+            }
+            
+            // optional binding and setting the variables so they can be used in the UI
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                if let name = json["name"] as! String? {
+                    station.setStationName(name)
+                }
+                if let lat = json["lat"] as! Double? {
+                    if let lon = json["lon"] as! Double? {
+                        station.setStationCoord(lat, long: lon)
+                    }
+                }
+                if let id = json["id"] as! Int? {
+                    station.setStationID(id)
+                }
+                if let state = json["state"] as! String? {
+                    
                 }
                 
                 

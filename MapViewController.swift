@@ -13,28 +13,27 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var MapView: MKMapView!
     
-    let locationManager = CLLocationManager()
+    var shownLocation = false
+    var currentUserLat = 0.0
+    var currentUserLong = 0.0
+    var closestStation = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
     
-    func showLocation() {
-        MapView.showsUserLocation = true
-        let coord = MapView.userLocation.coordinate
-        let lat = coord.latitude
-        
+    
+    var locationManager = CLLocationManager()
+    
+    func setUserLocation(lat: Double, lon: Double) {
+        currentUserLat = lat
+        currentUserLong = lon
+    }
+    
+    func setClosest_Station(st: Station) {
+        closestStation = st
     }
 
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //showLocation()
-        
-        /*
-        if(locationManager.requestAlwaysAuthorization) {
-            print("location services on")
-        }
-        else {
-            print("location services off")
-        }*/
         
         // Ask for Authorisation from the User.
         locationManager.requestAlwaysAuthorization()
@@ -47,7 +46,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-
+        
+        //let station = Station(name: closestStation.name, id: closestStation.id, coord: closestStation.coord)//CLLocationCoordinate2D(latitude: 34.4044,longitude: -119.6925))
+        //MapView.addAnnotation(station)
+        
+        
+        
         
         // Do any additional setup after loading the view.
     }
@@ -59,9 +63,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         let location = locations.last! as CLLocation
         
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
         
-        self.MapView.setRegion(region, animated: true)
+        if !shownLocation {
+            setUserLocation(location.coordinate.latitude,lon: location.coordinate.longitude)
+            let station = Station(name: closestStation.name, id: closestStation.id, coord: closestStation.coord)//CLLocationCoordinate2D(latitude: 34.4044,longitude: -119.6925))
+            MapView.addAnnotation(station)
+            self.MapView.setRegion(region, animated: true)
+            shownLocation = true
+        }
+        
     }
     
     

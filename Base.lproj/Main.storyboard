@@ -41,10 +41,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="900"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" placeholderIntrinsicWidth="189" placeholderIntrinsicHeight="559" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Wb9-xF-ITb" userLabel="main stack">
-                                                <rect key="frame" x="0.0" y="0.0" width="280" height="559"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="270" height="559"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" placeholderIntrinsicWidth="62" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="npz-NI-fab">
-                                                        <rect key="frame" x="109" y="0.0" width="62" height="20"/>
+                                                        <rect key="frame" x="104" y="0.0" width="62" height="20"/>
                                                         <subviews>
                                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" placeholderIntrinsicWidth="20" placeholderIntrinsicHeight="20" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="998-ax-Tju">
                                                                 <rect key="frame" x="-64" y="-15" width="0.0" height="20"/>
@@ -58,7 +58,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="center" ambiguous="YES" placeholderIntrinsicWidth="127" placeholderIntrinsicHeight="60" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="23Q-jE-nNx">
-                                                        <rect key="frame" x="77" y="25" width="127" height="60"/>
+                                                        <rect key="frame" x="72" y="25" width="127" height="60"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" placeholderIntrinsicWidth="127" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="7 digit station ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sWA-mD-E8s">
                                                                 <rect key="frame" x="0.0" y="0.0" width="127" height="30"/>
@@ -75,14 +75,14 @@
                                                         </subviews>
                                                     </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g73-4Q-kPK">
-                                                        <rect key="frame" x="99" y="90" width="83" height="30"/>
+                                                        <rect key="frame" x="94" y="90" width="83" height="30"/>
                                                         <state key="normal" title="update data"/>
                                                         <connections>
                                                             <action selector="buttonUpdate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dWY-Ju-0hv"/>
                                                         </connections>
                                                     </button>
                                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="KVg-Dl-QwS" userLabel="conditionStack">
-                                                        <rect key="frame" x="46" y="125" width="189" height="434"/>
+                                                        <rect key="frame" x="41" y="125" width="189" height="434"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="H07-0Y-hB9">
                                                                 <rect key="frame" x="19" y="0.0" width="152" height="205"/>
@@ -243,11 +243,11 @@
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="Wb9-xF-ITb" firstAttribute="top" secondItem="1mk-nJ-V6W" secondAttribute="top" id="KGM-ct-c4d"/>
-                                            <constraint firstAttribute="trailing" secondItem="Wb9-xF-ITb" secondAttribute="trailing" constant="15" id="Ktx-14-XdH"/>
-                                            <constraint firstItem="Wb9-xF-ITb" firstAttribute="centerX" secondItem="1mk-nJ-V6W" secondAttribute="centerX" id="bB7-EV-wKi"/>
+                                            <constraint firstAttribute="trailing" secondItem="Wb9-xF-ITb" secondAttribute="trailing" constant="40" id="1AL-7M-q42"/>
+                                            <constraint firstAttribute="bottom" secondItem="Wb9-xF-ITb" secondAttribute="bottom" constant="341" id="5qh-GQ-xDB"/>
+                                            <constraint firstItem="Wb9-xF-ITb" firstAttribute="leading" secondItem="1mk-nJ-V6W" secondAttribute="leading" id="eRY-Ps-sJn"/>
                                             <constraint firstAttribute="width" constant="310" id="mUl-Gz-gls"/>
-                                            <constraint firstItem="Wb9-xF-ITb" firstAttribute="leading" secondItem="1mk-nJ-V6W" secondAttribute="leading" constant="15" id="yE1-GQ-t8x"/>
+                                            <constraint firstItem="Wb9-xF-ITb" firstAttribute="top" secondItem="1mk-nJ-V6W" secondAttribute="top" id="p4Q-PO-oLS"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -274,7 +274,7 @@
                     <navigationItem key="navigationItem" title="Station name" id="EIU-wd-PjB">
                         <barButtonItem key="rightBarButtonItem" title="Map" id="GU8-NR-GmW">
                             <connections>
-                                <segue destination="Qbr-aU-Aeg" kind="show" id="USu-14-hvw"/>
+                                <segue destination="Qbr-aU-Aeg" kind="show" identifier="MapSegue" id="USu-14-hvw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -327,7 +327,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fsC-6m-QFQ">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fsC-6m-QFQ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
                         </subviews>
@@ -341,6 +341,9 @@
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
+                    <connections>
+                        <outlet property="MapView" destination="fsC-6m-QFQ" id="lFa-dn-l30"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ix9-1A-Waa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
