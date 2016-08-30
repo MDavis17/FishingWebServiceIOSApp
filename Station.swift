@@ -14,12 +14,14 @@ class Station: NSObject, MKAnnotation {
     var name : String
     var id : Int
     var coord : CLLocationCoordinate2D
+    var useStation : UIButton
     //var distance : Double
     
     init(name: String, id: Int, coord: CLLocationCoordinate2D) {
         self.name = name
         self.id = id
         self.coord = coord
+        self.useStation = UIButton()
         super.init()
     }
     

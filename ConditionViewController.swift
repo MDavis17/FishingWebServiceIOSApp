@@ -38,8 +38,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
         // san francisco testing location
-        //startingCoord = CLLocationCoordinate2D(latitude: 37.716138, longitude: -122.351085)
-        startingCoord = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        startingCoord = CLLocationCoordinate2D(latitude: 37.716138, longitude: -122.351085)
+        // santa barbara testing location
+        //startingCoord = CLLocationCoordinate2D(latitude: 34.398, longitude: -119.703)
+        // hawaii testing location
+        //startingCoord = CLLocationCoordinate2D(latitude: 21.300829, longitude: -158.060879)
+        //startingCoord = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         
         sharedInstance.getClosestStation("http://fishingwebservice.cfapps.io/stationsearch/"+String(startingCoord.latitude)+","+String(startingCoord.longitude), station: currentStation) {() in
             self.stationID = String(self.currentStation.id)
