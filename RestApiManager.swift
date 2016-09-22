@@ -95,7 +95,8 @@ class RestApiManager {
         task.resume()
     }
     
-    func getClosestStation(path: String, station: Station, completion: () -> ()){
+    func getStationAtIndex(path: String, index: Int, station: Station, completion: () -> ()){
+        var currentStationIndex = 0
         
         let request = NSMutableURLRequest(URL: NSURL(string: path)!)
         let session = NSURLSession.sharedSession()
@@ -120,6 +121,32 @@ class RestApiManager {
             // optional binding and setting the variables so they can be used in the UI
             dispatch_async(dispatch_get_main_queue()) {
                 
+                if let dict = json as [String: AnyObject]? {
+                    if let stations = dict["stations"] as! [AnyObject]? {
+                        
+                        for info in stations {
+                            if(currentStationIndex < index) {
+                                currentStationIndex += 1
+                                continue
+                            }
+                            let name = info["name"] as! String?
+                            let lat = info["lat"] as! Double?
+                            let lon = info["lon"] as! Double?
+                            let id = info["id"] as! Int?
+                            station.setStationName(name!)
+                            station.setStationCoord(lat!, long: lon!)
+                            station.setStationID(id!)
+                            
+                            break
+                            
+                        }
+                    }
+                }
+                
+                /*
+                if let stationsArray = json["stations"] as! NSArray? {
+                }
+                
                 if let name = json["name"] as! String? {
                     station.setStationName(name)
                 }
@@ -131,10 +158,10 @@ class RestApiManager {
                 if let id = json["id"] as! Int? {
                     station.setStationID(id)
                 }
-                if let state = json["state"] as! String? {
+                //if let state = json["state"] as! String? {
                     
-                }
-                
+                //}
+                */
                 
                 completion()
             }

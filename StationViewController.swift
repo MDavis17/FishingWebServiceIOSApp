@@ -13,6 +13,7 @@ class StationViewController: UIViewController {
     var Lat = 0.0
     var Long = 0.0
     var station: Station?
+    var distance = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +23,14 @@ class StationViewController: UIViewController {
         
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBOutlet weak var stationNameLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
 
     /*
     // MARK: - Navigation

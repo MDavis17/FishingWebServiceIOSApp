@@ -362,20 +362,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DHC-5v-MeK">
-                                <rect key="frame" x="200" y="214" width="134" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Lq6-7A-1am">
+                                <rect key="frame" x="200" y="214" width="66" height="41"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Station" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DHC-5v-MeK">
+                                        <rect key="frame" x="0.0" y="0.0" width="66" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="distance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKL-0d-ug1">
+                                        <rect key="frame" x="0.0" y="21" width="66" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="DHC-5v-MeK" firstAttribute="centerX" secondItem="ywa-W2-DbL" secondAttribute="centerX" id="6ZF-MS-hbQ"/>
-                            <constraint firstItem="DHC-5v-MeK" firstAttribute="centerY" secondItem="ywa-W2-DbL" secondAttribute="centerY" id="6b8-5L-ICZ"/>
+                            <constraint firstItem="Lq6-7A-1am" firstAttribute="centerX" secondItem="ywa-W2-DbL" secondAttribute="centerX" id="37J-7b-YrK"/>
+                            <constraint firstItem="Lq6-7A-1am" firstAttribute="centerY" secondItem="ywa-W2-DbL" secondAttribute="centerY" id="zph-DT-8bd"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="distanceLabel" destination="lKL-0d-ug1" id="38a-Dr-jPD"/>
                         <outlet property="stationNameLabel" destination="DHC-5v-MeK" id="hQZ-F7-WoZ"/>
                     </connections>
                 </viewController>

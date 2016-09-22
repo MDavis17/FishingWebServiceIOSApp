@@ -45,7 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         //startingCoord = CLLocationCoordinate2D(latitude: 21.300829, longitude: -158.060879)
         //startingCoord = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
         
-        sharedInstance.getClosestStation("http://fishingwebservice.cfapps.io/stationsearch/"+String(startingCoord.latitude)+","+String(startingCoord.longitude), station: currentStation) {() in
+        sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(startingCoord.latitude)+","+String(startingCoord.longitude), index: 0, station: currentStation) {() in
             self.stationID = String(self.currentStation.id)
             self.HTTPInteract(self.stationID)
             //self.newSession = false
@@ -100,7 +100,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func getIDFromCoord(Lat: Double, Long: Double) -> Int {
-        sharedInstance.getClosestStation("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long), station: currentStation) {() in
+        sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long),index: 0,station: currentStation) {() in
             return self.currentStation.id
         }
         return -1
