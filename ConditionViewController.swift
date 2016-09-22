@@ -15,11 +15,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var nextCond = Condition()
     let sharedInstance = RestApiManager()
     var numberOfDelays = 0
-    var defaultID = "9411340"
     var stationID = "";
     var startingCoord = CLLocationCoordinate2D()
     var scrollView: UIScrollView!
     var currentStation = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
+    var closestStations = [Station]()
     let locationManager = CLLocationManager()
     var newSession = true
 
@@ -38,12 +38,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
         // san francisco testing location
-        startingCoord = CLLocationCoordinate2D(latitude: 37.716138, longitude: -122.351085)
+        startingCoord = CLLocationCoordinate2D(latitude: 37.780205, longitude: -122.422496)
         // santa barbara testing location
         //startingCoord = CLLocationCoordinate2D(latitude: 34.398, longitude: -119.703)
         // hawaii testing location
         //startingCoord = CLLocationCoordinate2D(latitude: 21.300829, longitude: -158.060879)
         //startingCoord = CLLocationCoordinate2D(latitude: (locationManager.location?.coordinate.latitude)!, longitude: (locationManager.location?.coordinate.longitude)!)
+        
+        for i in 0...4 {
+            closestStations.append(Station(name: "",id: 0,coord: CLLocationCoordinate2D()))
+        }
+        
+        fillStations(startingCoord.latitude, Long: startingCoord.longitude)
         
         sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(startingCoord.latitude)+","+String(startingCoord.longitude), index: 0, station: currentStation) {() in
             self.stationID = String(self.currentStation.id)
@@ -51,11 +57,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             //self.newSession = false
         }
         
-        //let a = locationManager.location?.coordinate.longitude
-        //let b = locationManager.location?.coordinate.latitude
-        
-        // Automatically update the temperature and tide values from santa barbara
-        //HTTPInteract("9411340")
 
         // alert the user if the displayed data is old, but only execute the completion hander when theres only one delay running
         delay(361.0) {
@@ -65,21 +66,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             self.numberOfDelays -= 1
         }
     }
-    /*
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    {
-        if newSession {
-            let location = locations.last! as CLLocation
-            startingCoord = CLLocationCoordinate2D(latitude: location.coordinate.latitude,longitude: location.coordinate.longitude)
-            sharedInstance.getClosestStation("http://fishingwebservice.cfapps.io/stationsearch/"+String(startingCoord.latitude)+","+String(startingCoord.longitude), station: currentStation) {() in
-                self.stationID = String(self.currentStation.id)
-                self.HTTPInteract(self.stationID)
-                //self.newSession = false
-            }
-        }
-        newSession = false
-        //return
-    }*/
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator:UIViewControllerTransitionCoordinator) {
         if(UIDevice.currentDevice().orientation.isLandscape) {
@@ -96,14 +82,43 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let mvc = segue.destinationViewController as! MapViewController
             
             mvc.closestStation = currentStation
+            mvc.stationsNearUser = closestStations
         }
     }
     
-    func getIDFromCoord(Lat: Double, Long: Double) -> Int {
+    /*func getIDFromCoord(Lat: Double, Long: Double) -> Int {
         sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long),index: 0,station: currentStation) {() in
             return self.currentStation.id
         }
         return -1
+    }*/
+    
+    func fillStations(Lat: Double, Long: Double) {
+        // TODO clean up this messy hard coding
+        
+        var temp1 = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
+        var temp2 = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
+        var temp3 = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
+        var temp4 = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
+        var temp5 = Station(name: "",id: 0,coord: CLLocationCoordinate2D())
+        
+        
+        sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long),index: 0,station: temp1) {() in
+            self.closestStations[0] = temp1
+        }
+        sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long),index: 1,station: temp2) {() in
+            self.closestStations[1] = temp2
+        }
+        sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long),index: 2,station: temp3) {() in
+            self.closestStations[2] = temp3
+        }
+        sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long),index: 3,station: temp4) {() in
+            self.closestStations[3] = temp4
+        }
+        sharedInstance.getStationAtIndex("http://fishingwebservice.cfapps.io/stationsearch/"+String(Lat)+","+String(Long),index: 4,station: temp5) {() in
+            self.closestStations[4] = temp5
+        }
+        
     }
     
     func HTTPInteract(ID: String) {

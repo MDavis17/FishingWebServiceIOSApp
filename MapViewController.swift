@@ -31,6 +31,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func setClosest_Station(st: Station) {
         closestStation = st
     }
+    
+    func setClosestStations(stations: [Station]) {
+        stationsNearUser = stations
+    }
 
     
     
@@ -125,15 +129,19 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         if !shownLocation {
             setUserLocation(location.coordinate.latitude,lon: location.coordinate.longitude)
-            let station = Station(name: closestStation.name, id: closestStation.id, coord: closestStation.coord)//CLLocationCoordinate2D(latitude: 34.4044,longitude: -119.6925))
-            MapView.addAnnotation(station)
+            //let station = Station(name: closestStation.name, id: closestStation.id, coord: closestStation.coord)//CLLocationCoordinate2D(latitude: 34.4044,longitude: -119.6925))
+            for i in 0...4 {
+                MapView.addAnnotation(Station(name: stationsNearUser[i].name, id: stationsNearUser[i].id, coord: stationsNearUser[i].coord))
+            }
+            
+            //MapView.addAnnotation(station)
             
             
             
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             
-            let latDelta = closestStation.coord.latitude - center.latitude
-            let lonDelta = closestStation.coord.longitude - center.longitude
+            let latDelta = stationsNearUser[4].coord.latitude - center.latitude
+            let lonDelta = stationsNearUser[4].coord.longitude - center.longitude
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 2.2*abs(latDelta), longitudeDelta: 2.2*abs(lonDelta)))
             
             self.MapView.setRegion(region, animated: true)
